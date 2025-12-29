@@ -1,0 +1,236 @@
+const WEBHOOK_URL = "https://curso-n8n-n8n.sjia2i.easypanel.host/webhook-test/facturamind-606";
+
+
+$body = @{
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FacturaMind 606 — Registro de Facturas</title>
+  <style>
+    :root { --bg:#0b1220; --card:#0f1b33; --muted:#9fb0d0; --text:#eaf0ff; --line:#1f2e4f; --ok:#2ecc71; --bad:#ff5c5c; --btn:#2b6cff; }
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:radial-gradient(1200px 700px at 20% 0%, #142a55 0%, var(--bg) 55%);color:var(--text)}
+    .wrap{max-width:980px;margin:0 auto;padding:28px 16px}
+    .top{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .brand{display:flex;gap:12px;align-items:center}
+    .brand img{height:44px;width:auto;border-radius:10px;background:#fff;padding:6px}
+    .brand h1{font-size:18px;margin:0}
+    .brand p{margin:2px 0 0;color:var(--muted);font-size:13px}
+    .card{margin-top:18px;background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));border:1px solid var(--line);border-radius:16px;padding:18px;backdrop-filter: blur(8px)}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    .field{grid-column:span 12}
+    .field.half{grid-column:span 6}
+    .field.third{grid-column:span 4}
+    label{display:block;font-size:12px;color:var(--muted);margin:2px 0 6px}
+    input,select,textarea{width:100%;padding:12px 12px;border-radius:12px;border:1px solid var(--line);background:rgba(7,12,25,.65);color:var(--text);outline:none}
+    input:focus,select:focus,textarea:focus{border-color:rgba(43,108,255,.8);box-shadow:0 0 0 3px rgba(43,108,255,.15)}
+    .hint{font-size:12px;color:var(--muted);margin-top:6px}
+    .row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:14px}
+    .btn{padding:12px 14px;border:0;border-radius:12px;background:var(--btn);color:white;font-weight:700;cursor:pointer}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+    .pill{display:inline-flex;gap:8px;align-items:center;padding:8px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);font-size:12px}
+    .status{margin-top:12px;padding:12px;border-radius:12px;border:1px dashed var(--line);color:var(--muted)}
+    .ok{border-color:rgba(46,204,113,.35);color:#bff3d4}
+    .bad{border-color:rgba(255,92,92,.35);color:#ffd0d0}
+    .foot{margin-top:12px;color:var(--muted);font-size:12px}
+    .req{color:#ffcc66}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <img alt="Logo" src="https://informativolatelefonica.com/wp-content/uploads/2025/07/ChatGPT-Image-10-dic-2025-16_13_08.png">
+        <div>
+          <h1>FacturaMind 606</h1>
+          <p>Registra tu factura y recibe confirmación automática por correo.</p>
+        </div>
+      </div>
+      <div class="pill">📄 DGII 606 · Validación básica · Email automático</div>
+    </div>
+
+    <div class="card">
+      <form id="fm606">
+        <div class="grid">
+          <div class="field third">
+            <label>Cliente ID <span class="hint">(opcional)</span></label>
+            <input id="cliente_id" name="cliente_id" placeholder="Ej: CLI-001">
+          </div>
+
+          <div class="field third">
+            <label>Email del cliente <span class="req">*</span></label>
+            <input id="email_cliente" name="email_cliente" type="email" required placeholder="tuemail@dominio.com">
+          </div>
+
+          <div class="field third">
+            <label>RNC/Cédula Proveedor <span class="req">*</span></label>
+            <input id="rnc_cedula_proveedor" name="rnc_cedula_proveedor" inputmode="numeric" required placeholder="Solo números">
+            <div class="hint">Ej: 130455856 (sin guiones ni espacios).</div>
+          </div>
+
+          <div class="field half">
+            <label>NCF <span class="req">*</span></label>
+            <input id="ncf" name="ncf" required placeholder="Ej: B010001234999">
+            <div class="hint">Debe iniciar con letra y contener el número completo (ej: B01...).</div>
+          </div>
+
+          <div class="field half">
+            <label>NCF Modificado <span class="hint">(opcional)</span></label>
+            <input id="ncf_modificado" name="ncf_modificado" placeholder="Si aplica (Notas de crédito, etc.)">
+          </div>
+
+          <div class="field half">
+            <label>Fecha del comprobante <span class="req">*</span></label>
+            <input id="fecha_comprobante" name="fecha_comprobante" type="date" required>
+            <div class="hint">Es la fecha de la factura/NCF (la importante para 606).</div>
+          </div>
+
+          <div class="field half">
+            <label>Fecha de pago <span class="hint">(opcional)</span></label>
+            <input id="fecha_pago" name="fecha_pago" type="date">
+          </div>
+
+          <div class="field third">
+            <label>Tipo Bienes/Servicios <span class="hint">(opcional por ahora)</span></label>
+            <input id="tipo_bienes_servicios" name="tipo_bienes_servicios" placeholder="Ej: 02">
+          </div>
+
+          <div class="field third">
+            <label>Monto facturado <span class="req">*</span></label>
+            <input id="monto_facturado" name="monto_facturado" inputmode="decimal" required placeholder="Ej: 1000">
+          </div>
+
+          <div class="field third">
+            <label>ITBIS facturado <span class="hint">(opcional)</span></label>
+            <input id="itbis_facturado" name="itbis_facturado" inputmode="decimal" placeholder="Ej: 180">
+          </div>
+
+          <div class="field third">
+            <label>Total facturado <span class="hint">(auto si lo dejas vacío)</span></label>
+            <input id="total_facturado" name="total_facturado" inputmode="decimal" placeholder="Ej: 1180">
+            <div class="hint">Si lo dejas vacío, calculamos: monto + itbis.</div>
+          </div>
+
+          <div class="field">
+            <label>Nota (opcional)</label>
+            <textarea id="nota_cliente" name="nota_cliente" rows="3" placeholder="Observaciones…"></textarea>
+          </div>
+        </div>
+
+        <div class="row">
+          <button class="btn" id="btnSend" type="submit">Enviar factura</button>
+          <div class="pill" id="mini">🔒 Datos básicos validados antes de enviar</div>
+        </div>
+
+        <div class="status" id="statusBox">Listo para enviar.</div>
+        <div class="foot">Al enviar, recibirás un correo de confirmación (aprobada o rechazada) desde <b>puntoebook3@gmail.com</b>.</div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // 1) CAMBIA ESTA URL POR TU WEBHOOK REAL DE N8N:
+const WEBHOOK_URL = "https://curso-n8n-n8n.sjia2i.easypanel.host/webhook/facturamind-606";
+
+    const $ = (id) => document.getElementById(id);
+    const statusBox = $("statusBox");
+    const btnSend = $("btnSend");
+
+    function setStatus(msg, type="") {
+      statusBox.className = "status " + (type === "ok" ? "ok" : type === "bad" ? "bad" : "");
+      statusBox.textContent = msg;
+    }
+
+    function cleanNCF(ncf) {
+      return (ncf || "").trim().toUpperCase();
+    }
+
+    function onlyDigits(v) {
+      return (v || "").toString().replace(/\D/g, "");
+    }
+
+    function toNumber(v) {
+      if (v === null || v === undefined || v === "") return 0;
+      const n = Number(String(v).replace(/,/g, "").trim());
+      return Number.isFinite(n) ? n : 0;
+    }
+
+    function validate(payload) {
+      const errors = [];
+      if (!payload.email_cliente || !payload.email_cliente.includes("@")) errors.push("Email inválido.");
+      if (!payload.rnc_cedula_proveedor || payload.rnc_cedula_proveedor.length < 9) errors.push("RNC/Cédula inválido (mínimo 9 dígitos).");
+      if (!payload.ncf || payload.ncf.length < 11) errors.push("NCF inválido (muy corto).");
+      if (!payload.fecha_comprobante) errors.push("Falta fecha del comprobante.");
+      if (payload.monto_facturado <= 0) errors.push("Monto facturado debe ser mayor que 0.");
+      // ITBIS puede ser 0
+      return errors;
+    }
+
+    $("fm606").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      btnSend.disabled = true;
+
+      const monto = toNumber($("monto_facturado").value);
+      const itbis = toNumber($("itbis_facturado").value);
+      const totalInput = $("total_facturado").value.trim();
+      const total = totalInput ? toNumber(totalInput) : (monto + itbis);
+
+      const payload = {
+        timestamp_recepcion: new Date().toISOString(),
+        cliente_id: $("cliente_id").value.trim() || "",
+        email_cliente: $("email_cliente").value.trim(),
+        rnc_cedula_proveedor: onlyDigits($("rnc_cedula_proveedor").value),
+        tipo_identificacion: "", // lo dejaremos para la siguiente iteración
+        ncf: cleanNCF($("ncf").value),
+        ncf_modificado: cleanNCF($("ncf_modificado").value),
+        fecha_comprobante: $("fecha_comprobante").value,
+        fecha_pago: $("fecha_pago").value || "",
+        tipo_bienes_servicios: $("tipo_bienes_servicios").value.trim() || "",
+        monto_facturado: monto,
+        itbis_facturado: itbis,
+        total_facturado: total,
+        nota_cliente: $("nota_cliente").value.trim() || ""
+      };
+
+      const errs = validate(payload);
+      if (errs.length) {
+        setStatus("No se envió. Corrige: " + errs.join(" "), "bad");
+        btnSend.disabled = false;
+        return;
+      }
+
+      try {
+        setStatus("Enviando…");
+        const res = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          setStatus("Error del servidor. Intenta de nuevo. " + (data.message || ""), "bad");
+          btnSend.disabled = false;
+          return;
+        }
+
+        // Esperamos que n8n devuelva {ok:true/false, message:"..."}
+        if (data.ok === true) {
+          setStatus(data.message || "Factura enviada. Revisa tu correo.", "ok");
+        } else if (data.ok === false) {
+          setStatus(data.message || "Factura enviada, pero fue rechazada. Revisa tu correo.", "bad");
+        } else {
+          setStatus("Factura enviada. Revisa tu correo.", "ok");
+        }
+
+      } catch (err) {
+        setStatus("No se pudo conectar con el servidor. Revisa la URL del webhook.", "bad");
+      } finally {
+        btnSend.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
